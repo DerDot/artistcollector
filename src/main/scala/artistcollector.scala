@@ -1,6 +1,5 @@
-import java.io.File
+import java.io.{ File, BufferedWriter, FileWriter }
 import scala.collection.mutable.{Set => MSet}
-
 import com.mpatric.mp3agic.{ InvalidDataException, Mp3File }
 import play.api.libs.json.Json
 
@@ -46,7 +45,12 @@ object ID3Collector {
 }
 
 object ArtistCollector extends App {
-  val f = new File("/home/derdot/unloco")
-  val musicfiles = ID3Collector.collectArtists(f)
-  println(Json.toJson(musicfiles))
+  val f = new File("/media/More_Storage/Mukke2/47 Million Dollars/Unkaputtbar")
+  val artists = ID3Collector.collectArtists(f)
+  val artists_json = Json.stringify(Json.toJson(artists))
+  
+  val outfile = new File("out.json")
+  val writer = new BufferedWriter(new FileWriter(outfile))
+  writer.write(artists_json)
+  writer.close()
 }
